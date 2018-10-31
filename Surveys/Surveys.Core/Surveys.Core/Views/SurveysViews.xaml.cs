@@ -17,7 +17,24 @@ namespace Surveys.Core.Views
 		public SurveysViews ()
 		{
 			InitializeComponent ();
-		}
+
+            
+
+        // MessagingCenter.Subscribe<ContentPage,
+        //   Survey>(this,Messages.NewSurveyComplete,(sender,arg))
+
+        /*MessagingCenter.Subscribe<ContentPage, Survey>
+           (this, Messages.NewSurveyComplete, (sender, args) =>
+           {
+               SurveysPanel.Children.Add(new Label()
+               {
+                   Text = args.ToString()
+
+               });
+
+            });
+            */
+    }
 
         private async void Button_Clicked(object sender, EventArgs e)
         {

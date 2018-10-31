@@ -1,19 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:core ="clr-namespace:Surveys.Core;assembly=Surveys.Core"             
              x:Class="Surveys.Core.Views.SurveysViews"
              Title="Encuesta">
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
             
+            <core:Data x:Key="data"></core:Data>
+            <!--Template para el listview-->
+            <DataTemplate x:Key="SurveyDataTemplate">
+                <ViewCell>
+                    <StackLayout>
+                        <Label Text="{Binding Name}"
+                               FontSize="24"></Label>
+                        <Label Text="{Binding Birthdate,StringFormat='{}{0:dd/MM/yyyy}'}"></Label>
+                        <Label Text="{Binding FavoriteTeam}"></Label>
+                        
+                    </StackLayout>
+                    
+                </ViewCell>
+                
+            </DataTemplate>
+            
+        </ResourceDictionary>
+        
+    </ContentPage.Resources>
+    
+    <Grid Margin="10"
+          BindingContext="{Binding Source={StaticResource data}}">
+        <!---->
+            
+        <Grid.RowDefinitions>
+            
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
 
         <Button Text="+"
                 Clicked="Button_Clicked"></Button>
-        <StackLayout Grid.Row="1"
-                     x:Name="SurveysPanel"></StackLayout>
+ 
+        <ListView Grid.Row="1"
+                  ItemsSource="{Binding Surveys}"
+                  SelectedItem="{Binding SelectedSurvey, Mode=TwoWay}"
+               
+                  ItemTemplate="{StaticResource SurveyDataTemplate}"
+                  HasUnevenRows="True"
+                  >
+              <!--Plantilla para list view de resoure Dictionary-->
+            
+        </ListView>
         
     </Grid>
     

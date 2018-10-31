@@ -2,15 +2,11 @@
 
 namespace Surveys.Core.Views
 {
+    using Surveys.Core.Models;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     using Xamarin.Forms;
     using Xamarin.Forms.Xaml;
-    using Surveys.Core.Models;
+
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SurveyDetailsView : ContentPage
 	{
@@ -24,7 +20,6 @@ namespace Surveys.Core.Views
             "Peñarol",
             "Real Madrid",
             "Saprissa"
-
         };
 
 		public SurveyDetailsView ()
@@ -37,15 +32,37 @@ namespace Surveys.Core.Views
             var favoriteTeam = await
                 DisplayActionSheet(Literals.FavoriteTeamTitle, null, null, teams);
 
-            if (!String.IsNullOrWhiteSpace(favoriteTeam))
+            if (!string.IsNullOrWhiteSpace(favoriteTeam))
             {
                 FAvoriteTeamLabel.Text = favoriteTeam;    
             }
         }
 
-        private void OKButton_Clicked(object sender, EventArgs e)
+        private async  void OKButton_Clicked(object sender, EventArgs e)
         {
+            //evaluamos si los datos estan completos
+            if (string.IsNullOrWhiteSpace(NameEntry.Text)||
+                string.IsNullOrWhiteSpace(FAvoriteTeamLabel.Text))
+            {
+                return;
+            }
 
+            //creamos el nuevo objeto de tipo survey
+            var newSurvey = new Survey()
+            {
+
+                Name = NameEntry.Text,
+                Birthdate = BirthdatePicker.Date,
+                FavoriteTeam = FAvoriteTeamLabel.Text
+
+            };
+
+            //publicacmos el mensaje con el objeto de encuesta como argumento
+            MessagingCenter.Send((ContentPage)this,
+                Messages.NewSurveyComplete, newSurvey);
+
+            //removemos la pagina de la pila de navegacion para regresar inmediatamente
+            await Navigation.PopAsync();
         }
     }
 }
