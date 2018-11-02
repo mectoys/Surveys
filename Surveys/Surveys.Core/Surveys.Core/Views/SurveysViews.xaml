@@ -10,6 +10,7 @@
         <ResourceDictionary>
             
             <core:Data x:Key="data"></core:Data>
+            <core:TeamColorConverter x:Key="TeamColorConverter"></core:TeamColorConverter>
             <!--Template para el listview-->
             <DataTemplate x:Key="SurveyDataTemplate">
                 <ViewCell>
@@ -17,7 +18,9 @@
                         <Label Text="{Binding Name}"
                                FontSize="24"></Label>
                         <Label Text="{Binding Birthdate,StringFormat='{}{0:dd/MM/yyyy}'}"></Label>
-                        <Label Text="{Binding FavoriteTeam}"></Label>
+                        <Label Text="{Binding FavoriteTeam}"
+                               TextColor="{Binding FavoriteTeam, Converter={StaticResource TeamColorConverter}}"
+                               ></Label>
                         
                     </StackLayout>
                     
@@ -40,8 +43,9 @@
         </Grid.RowDefinitions>
 
         <Button Text="+"
-                Clicked="Button_Clicked"></Button>
- 
+               Command="{Binding NewSurveyCommand}" ></Button>
+        
+ <!--Clicked="Button_Clicked"-->
         <ListView Grid.Row="1"
                   ItemsSource="{Binding Surveys}"
                   SelectedItem="{Binding SelectedSurvey, Mode=TwoWay}"

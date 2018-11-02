@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-using System.Collections.ObjectModel;
+﻿
 
 namespace Surveys.Core
 {
- public  class Data :NotificationObject
+
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using Xamarin.Forms;
+   
+    using System.Collections.ObjectModel;
+    using System.Windows.Input;
+
+    public  class Data :NotificationObject
     {
         private ObservableCollection<Survey> surveys;
 
@@ -48,18 +53,27 @@ namespace Surveys.Core
                 OnPropertyChanged();
             }            
         }
+        public ICommand NewSurveyCommand { get; set; }
 
         public Data()
         {
-
+            //
                 Surveys = new 
-            ObservableCollection<Survey>();
-            MessagingCenter.Subscribe<ContentPage,
-                Survey>(this, Messages.NewSurveyComplete,
+               ObservableCollection<Survey>();
+                MessagingCenter.Subscribe<ContentPage,
+                    Survey>(this, Messages.NewSurveyComplete,
                                     (sender, args) =>
                                     {
                                         Surveys.Add(args);
                                     });
+
+            NewSurveyCommand = new 
+                Command(NewSurveyCommandExecute);
+        }
+        private void NewSurveyCommandExecute()
+        {
+
+
 
         }
     }
