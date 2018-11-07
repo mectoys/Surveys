@@ -2,14 +2,14 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:core ="clr-namespace:Surveys.Core;assembly=Surveys.Core"             
-             x:Class="Surveys.Core.Views.SurveysViews"
+    xmlns:core="clr-namespace:Surveys.Core"
+    x:Class="Surveys.Core.Views.SurveysViews"
              Title="Encuesta">
     
     <ContentPage.Resources>
         <ResourceDictionary>
             
-            <core:Data x:Key="data"></core:Data>
+            <core:SurveyViewModel x:Key="SurveysViewModel"></core:SurveyViewModel>
             <core:TeamColorConverter x:Key="TeamColorConverter"></core:TeamColorConverter>
             <!--Template para el listview-->
             <DataTemplate x:Key="SurveyDataTemplate">
@@ -21,7 +21,13 @@
                         <Label Text="{Binding FavoriteTeam}"
                                TextColor="{Binding FavoriteTeam, Converter={StaticResource TeamColorConverter}}"
                                ></Label>
-                        
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Text="{Binding Lat,StringFormat='{}{0:N4}'}"></Label>
+                            <Label Text=","></Label>
+                            <Label Text="{Binding Lon,StringFormat='{}{0:N4}'}"></Label>
+                                   
+                        </StackLayout>
                     </StackLayout>
                     
                 </ViewCell>
@@ -33,7 +39,7 @@
     </ContentPage.Resources>
     
     <Grid Margin="10"
-          BindingContext="{Binding Source={StaticResource data}}">
+          BindingContext="{Binding Source={StaticResource SurveysViewModel}}">
         <!---->
             
         <Grid.RowDefinitions>
@@ -43,7 +49,7 @@
         </Grid.RowDefinitions>
 
         <Button Text="+"
-               Command="{Binding NewSurveyCommand}" ></Button>
+               Command="{Binding NewSurveyCommand}" > </Button>
         
  <!--Clicked="Button_Clicked"-->
         <ListView Grid.Row="1"

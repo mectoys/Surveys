@@ -2,9 +2,23 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Surveys.Core.Views.SurveyDetailsView"
+             xmlns:viewModels="clr-namespace:Surveys.Core.ViewModels"
              Title="Nueva Encuesta">
-
-    <Grid Margin="10">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <viewModels:SurveyDetailsViewModel
+                
+                x:Key="SurveyDetailsViewModel">
+                
+            </viewModels:SurveyDetailsViewModel>
+            
+        </ResourceDictionary>
+        
+    </ContentPage.Resources>
+    
+    <Grid Margin="10"
+          BindingContext="{Binding Source={StaticResource SurveyDetailsViewModel}}">
+        
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -13,9 +27,9 @@
 
         <StackLayout>
             <Label Text="Nombre"> </Label>
-                <Entry x:Name="NameEntry"></Entry>
+                <Entry Text="{Binding Name,Mode=TwoWay}"></Entry>
                 <Label Text="Fecha Nacimiento"></Label>
-                <DatePicker x:Name="BirthdatePicker"></DatePicker>
+                <DatePicker Date="{Binding Birthdate, Mode=TwoWay}"></DatePicker>
 
                 <Label Text="Equipo Favorito"></Label>
                 <Grid>
@@ -24,19 +38,20 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                        
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="FAvoriteTeamLabel"></Label>
-                    <Button Grid.Column="1"
-                            Text="..."
-                            Clicked="FavoriteTeamButton_Clicked">
+                    <Label Text="{Binding FavoriteTeam}"></Label>
+                    <Button 
+                            Command="{Binding SelectTeamCommand}"
+                            Grid.Column="1"
+                            Text="..."  >
                         
                     </Button>
                 </Grid>
                             
         </StackLayout>
         <Button 
-            Text="Aceptar"
-            Grid.Row="1"    
-            Clicked="OKButton_Clicked">
+            Command="{Binding EndSurveyCommand}"
+            Grid.Row="1"  
+            Text="Aceptar" >
             
         </Button>
     </Grid>

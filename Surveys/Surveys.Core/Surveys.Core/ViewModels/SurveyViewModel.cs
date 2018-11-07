@@ -7,17 +7,16 @@ namespace Surveys.Core
     using System.Collections.Generic;
     using System.Text;
     using Xamarin.Forms;
-   
+    using Surveys.Core.ViewModels;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
 
-    public  class Data :NotificationObject
+    public  class SurveyViewModel : NotificationObject
     {
         private ObservableCollection<Survey> surveys;
 
         public ObservableCollection<Survey> Surveys
         {
-
             get
             {
                 return surveys;
@@ -55,25 +54,25 @@ namespace Surveys.Core
         }
         public ICommand NewSurveyCommand { get; set; }
 
-        public Data()
-        {
-            //
-                Surveys = new 
-               ObservableCollection<Survey>();
-                MessagingCenter.Subscribe<ContentPage,
-                    Survey>(this, Messages.NewSurveyComplete,
-                                    (sender, args) =>
-                                    {
-                                        Surveys.Add(args);
-                                    });
+ 
+        public SurveyViewModel()
+        {           
+
+                Surveys = new   ObservableCollection<Survey>();
 
             NewSurveyCommand = new 
                 Command(NewSurveyCommandExecute);
+            MessagingCenter.Subscribe<SurveyDetailsViewModel,
+                Survey>(this, Messages.NewSurveyComplete,
+                                (sender, args) =>
+                                {
+                                    Surveys.Add(args);
+                                });
         }
         private void NewSurveyCommandExecute()
         {
 
-
+            MessagingCenter.Send(this, Messages.NewSurvey);
 
         }
     }
